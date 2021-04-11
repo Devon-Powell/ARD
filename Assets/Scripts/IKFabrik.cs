@@ -206,6 +206,13 @@ public class IKFabrik : MonoBehaviour
             }
         }
     }
+
+    private void PoleConstraints()
+    {
+        
+    }
+    
+
     #endregion IKFabrik Solver
 
     private void ApplyJointRotations()
