@@ -27,14 +27,4 @@ public static class CharacterUtility
         com /= CalculateTotalRigidbodyMass(rigidbodies);
         return com;
     }
-
-    public static float GetActionTypeIndex(CharacterAction action)
-    {
-        return (int) action.actionType;
-    }
-
-    public static ActionType GetActionTypeFromIndex(int index)
-    {
-        return (ActionType) index;
-    }
 }

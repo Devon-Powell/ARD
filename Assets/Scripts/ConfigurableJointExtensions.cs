@@ -51,25 +51,4 @@ public static class ConfigurableJointExtensions
 		// Set target rotation to our newly calculated rotation
 		joint.targetRotation = resultRotation;
 	}
-	
-	/// <summary>
-	/// Adjust ConfigurableJoint settings to closely match CharacterJoint behaviour
-	/// </summary>
-	public static void SetupAsCharacterJoint (this ConfigurableJoint joint)
-	{
-		joint.xMotion = ConfigurableJointMotion.Locked;
-		joint.yMotion = ConfigurableJointMotion.Locked;
-		joint.zMotion = ConfigurableJointMotion.Locked;
-		joint.angularXMotion = ConfigurableJointMotion.Limited;
-		joint.angularYMotion = ConfigurableJointMotion.Limited;
-		joint.angularZMotion = ConfigurableJointMotion.Limited;
-		joint.breakForce = Mathf.Infinity;
-		joint.breakTorque = Mathf.Infinity;
-		
-		joint.rotationDriveMode = RotationDriveMode.Slerp;
-		var slerpDrive = joint.slerpDrive;
-		slerpDrive.mode = JointDriveMode.Position;
-		slerpDrive.maximumForce = Mathf.Infinity;
-		joint.slerpDrive = slerpDrive;
-	}
 }
