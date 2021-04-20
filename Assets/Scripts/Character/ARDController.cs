@@ -3,64 +3,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class ARDController : MonoBehaviour
 {
-    private PlayerInputSystem playerInputSystem = null;
-
-
-    #region Initialization
-    private void Awake()
-    {
-        playerInputSystem = new PlayerInputSystem();
-        playerInputSystem.ARDControls.Move.performed += context => Move();
-        playerInputSystem.ARDControls.Jump.performed += context => Jump();
-        playerInputSystem.ARDControls.PunchLeft.performed += context => PunchLeft();
-        playerInputSystem.ARDControls.PunchRight.performed += context => PunchRight();
-        playerInputSystem.ARDControls.ReachLeft.performed += context => ReachLeft();
-        playerInputSystem.ARDControls.ReachRight.performed += context => ReachRight();
-    }
-
-    private void OnEnable()
-    {
-        playerInputSystem.ARDControls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInputSystem.ARDControls.Disable();
-    }
-    #endregion Initialization
-
-    private void Move()
+    public Transform headLookTarget;
+    public Transform leftHandTarget;
+    public Transform rightHandTarget;
+    public Transform leftFootTarget;
+    public Transform rightFootTarget;
+    
+    private void OnMove(InputValue value)
     {
         
-        Debug.Log("Move");
+        Debug.Log("Move" + value.Get<Vector2>());
     }
-
-    private void Jump()
+    
+    private void OnJump()
     {
-
         Debug.Log("Jump");
     }
 
-    private void PunchLeft()
+    private void OnPunchLeft()
     {
+        for (int i = 0; i < ActionStates.characterActions.Length; i++)
+        {
+            if(ActionStates.characterActions[i].actionType == ActionType.PunchLeft)
+                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
+                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
+        }
+        
+        
         Debug.Log("PunchLeft");
     }
 
-    private void PunchRight()
+    private void OnPunchRight()
     {
+        for (int i = 0; i < ActionStates.characterActions.Length; i++)
+        {
+            if(ActionStates.characterActions[i].actionType == ActionType.PunchRight)
+                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
+                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], rightHandTarget));
+        }
+        
         Debug.Log("PunchRight");
     }
 
-    private void ReachLeft()
+    private void OnReachLeft()
     {
+        for (int i = 0; i < ActionStates.characterActions.Length; i++)
+        {
+            if(ActionStates.characterActions[i].actionType == ActionType.ReachLeft)
+                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
+                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
+        }
+        
         Debug.Log("ReachLeft");
     }
 
-    private void ReachRight()
+    private void OnReachRight()
     {
+        for (int i = 0; i < ActionStates.characterActions.Length; i++)
+        {
+            if(ActionStates.characterActions[i].actionType == ActionType.ReachRight)
+                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
+                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], rightHandTarget));
+        }
+        
         Debug.Log("ReachRight");
     }
 }

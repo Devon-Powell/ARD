@@ -7,34 +7,19 @@ public class JumpActionSO : CharacterAction
 {
     [Space] [SerializeField] private float jumpHeight;
 
-    protected override Vector3 GetIKTargetFinalPosition()
+    public override Vector3 GetIKTargetFinalPosition()
     {
-        Vector3 pos = new Vector3();
+        Vector3 position = new Vector3();
         
-        return pos;
+        return position;
     }
-    
-    protected override IEnumerator PerformCharacterAction(Transform target)
+
+    public override Vector3 ProgressCharacterAction(Transform target, Vector3 targetOrigin, Vector3 targetDestination, float currentTime)
     {
-        float elapsedTime = 0;
-        
-        int index = (int) actionType;
-        ActionStates.currentActionStates[index] = true;
-        
-        
-        Vector3 targetOrigin = target.localPosition;
-        
-        while (elapsedTime < actionTimeInSeconds)
-        {
-            elapsedTime += Time.deltaTime;
+        Vector3 position = new Vector3();
 
-            Vector3 targetDestination = new Vector3();
-
-            target.localPosition = Vector3.Lerp(targetOrigin, targetDestination, elapsedTime / actionTimeInSeconds);
-
-            yield return new WaitForFixedUpdate();
-        }
-
-        ActionStates.currentActionStates[index] = false;
+        target.localPosition = Vector3.Lerp(targetOrigin, targetDestination, currentTime / actionTimeInSeconds);
+        
+        return position;
     }
 }

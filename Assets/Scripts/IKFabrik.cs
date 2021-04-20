@@ -11,6 +11,7 @@ public class IKFabrik : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform[] jointTransforms;
     [SerializeField] private Transform ikTarget;
+    [SerializeField] private Transform pole;
 
     [Header("Solver Attributes")]
     [SerializeField] private int solverIterations = 2;
@@ -209,7 +210,10 @@ public class IKFabrik : MonoBehaviour
 
     private void PoleConstraints()
     {
-        
+        // if (pole)
+        // {
+        //     Vector3 polePosition = Quaternion.Inverse(jointTransforms[0].rotation) * 
+        // }
     }
     
 

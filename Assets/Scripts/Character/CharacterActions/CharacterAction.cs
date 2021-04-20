@@ -5,50 +5,29 @@ using UnityEngine;
 public abstract class CharacterAction : ScriptableObject
 {
     [SerializeField] public ActionType actionType;
-    
+
     [Space]
     [Header("Action Attributes")]
     [SerializeField] public float actionTimeInSeconds;
+    [SerializeField] public float actionReturnTime;
 
     [Space]
     [SerializeField] public ActionType[] prohibitedActions;
     [SerializeField] public ActionType[] requiredActions;
 
-    private Coroutine coroutine;
-    
-    protected virtual Vector3 GetIKTargetFinalPosition()
+    public virtual Vector3 GetIKTargetFinalPosition()
     {
         Vector3 pos = new Vector3();
 
         return pos;
     }
 
-    protected virtual void InterruptAction()
+    public virtual Vector3 ProgressCharacterAction(Transform target, Vector3 targetOrigin, Vector3 targetDestination, float currentTime)
     {
-        ActionStates.InterruptAction(coroutine);
-    }
+        Vector3 position = new Vector3();
 
-    protected virtual IEnumerator PerformCharacterAction(Transform target)
-    {
-        float elapsedTime = 0;
+        target.localPosition = Vector3.Lerp(targetOrigin, targetDestination, currentTime / actionTimeInSeconds + actionReturnTime);
         
-        int index = (int) actionType;
-        ActionStates.currentActionStates[index] = true;
-        
-        
-        Vector3 targetOrigin = target.localPosition;
-        
-        while (elapsedTime < actionTimeInSeconds)
-        {
-            elapsedTime += Time.deltaTime;
-
-            Vector3 targetDestination = new Vector3();
-
-            target.localPosition = Vector3.Lerp(targetOrigin, targetDestination, elapsedTime / actionTimeInSeconds);
-
-            yield return new WaitForFixedUpdate();
-        }
-
-        ActionStates.currentActionStates[index] = false;
+        return position;
     }
 }
