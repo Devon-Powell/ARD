@@ -11,8 +11,10 @@
     ReachLeft,
     GrabLeft,
     PunchLeft,
+    ReturnLeftHand,
     
     ReachRight,
     GrabRight,
-    PunchRight
+    PunchRight,
+    ReturnRightHand
 }

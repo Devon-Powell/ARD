@@ -65,6 +65,22 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LeftClickRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""63f7198b-ee6b-4ac2-b162-8bd2ed9d7631"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RightClickRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""94ad3e12-f85f-475b-8fc5-968ab3b3b26d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -175,6 +191,28 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65643024-2cfa-4770-81b3-802d5e7a7144"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClickRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0653d091-b563-405a-87c3-efa318e98aa7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClickRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -758,6 +796,8 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
         m_ARDControls_ReachLeft = m_ARDControls.FindAction("ReachLeft", throwIfNotFound: true);
         m_ARDControls_ReachRight = m_ARDControls.FindAction("ReachRight", throwIfNotFound: true);
         m_ARDControls_Jump = m_ARDControls.FindAction("Jump", throwIfNotFound: true);
+        m_ARDControls_LeftClickRelease = m_ARDControls.FindAction("LeftClickRelease", throwIfNotFound: true);
+        m_ARDControls_RightClickRelease = m_ARDControls.FindAction("RightClickRelease", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -825,6 +865,8 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_ARDControls_ReachLeft;
     private readonly InputAction m_ARDControls_ReachRight;
     private readonly InputAction m_ARDControls_Jump;
+    private readonly InputAction m_ARDControls_LeftClickRelease;
+    private readonly InputAction m_ARDControls_RightClickRelease;
     public struct ARDControlsActions
     {
         private @PlayerInputSystem m_Wrapper;
@@ -835,6 +877,8 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
         public InputAction @ReachLeft => m_Wrapper.m_ARDControls_ReachLeft;
         public InputAction @ReachRight => m_Wrapper.m_ARDControls_ReachRight;
         public InputAction @Jump => m_Wrapper.m_ARDControls_Jump;
+        public InputAction @LeftClickRelease => m_Wrapper.m_ARDControls_LeftClickRelease;
+        public InputAction @RightClickRelease => m_Wrapper.m_ARDControls_RightClickRelease;
         public InputActionMap Get() { return m_Wrapper.m_ARDControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -862,6 +906,12 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnJump;
+                @LeftClickRelease.started -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnLeftClickRelease;
+                @LeftClickRelease.performed -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnLeftClickRelease;
+                @LeftClickRelease.canceled -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnLeftClickRelease;
+                @RightClickRelease.started -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnRightClickRelease;
+                @RightClickRelease.performed -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnRightClickRelease;
+                @RightClickRelease.canceled -= m_Wrapper.m_ARDControlsActionsCallbackInterface.OnRightClickRelease;
             }
             m_Wrapper.m_ARDControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -884,6 +934,12 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @LeftClickRelease.started += instance.OnLeftClickRelease;
+                @LeftClickRelease.performed += instance.OnLeftClickRelease;
+                @LeftClickRelease.canceled += instance.OnLeftClickRelease;
+                @RightClickRelease.started += instance.OnRightClickRelease;
+                @RightClickRelease.performed += instance.OnRightClickRelease;
+                @RightClickRelease.canceled += instance.OnRightClickRelease;
             }
         }
     }
@@ -1046,6 +1102,8 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
         void OnReachLeft(InputAction.CallbackContext context);
         void OnReachRight(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnLeftClickRelease(InputAction.CallbackContext context);
+        void OnRightClickRelease(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

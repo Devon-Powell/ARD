@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PunchRightSO", menuName = "CharacterActions/PunchRightSO")]
+[CreateAssetMenu(fileName = nameof(PunchRightSO), menuName = "CharacterActions/Action" + nameof(PunchRightSO))]
 public class PunchRightSO : CharacterAction
 {
-    [Space] 
+    [Space]
     [SerializeField] private AnimationCurve xPositionCurve;
     [SerializeField] private AnimationCurve yPositionCurve;
     [SerializeField] private AnimationCurve zPositionCurve;

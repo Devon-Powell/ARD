@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429833cba8aed274cbd622ba8db9a69b, type: 3}
   m_Name: ReachRightSO
   m_EditorClassIdentifier: 
-  actionType: 9
+  actionType: 10
   actionTimeInSeconds: 1.4
   actionReturnTime: 0
   prohibitedActions: 090000000b000000

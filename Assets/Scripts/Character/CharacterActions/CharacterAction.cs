@@ -15,6 +15,13 @@ public abstract class CharacterAction : ScriptableObject
     [SerializeField] public ActionType[] prohibitedActions;
     [SerializeField] public ActionType[] requiredActions;
 
+    public virtual Vector3 GetIKTargetPath()
+    {
+        Vector3 position = new Vector3();
+
+        return position;
+    }
+    
     public virtual Vector3 GetIKTargetFinalPosition()
     {
         Vector3 pos = new Vector3();

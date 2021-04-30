@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -12,7 +13,15 @@ public class ARDController : MonoBehaviour
     public Transform rightHandTarget;
     public Transform leftFootTarget;
     public Transform rightFootTarget;
-    
+
+    private Vector3[] ikTargetLocalOrigins;
+    private Quaternion[] ikTargetLocalRotations;
+
+    private void Awake()
+    {
+        //ikTargetLocalOrigins
+    }
+
     private void OnMove(InputValue value)
     {
         
@@ -71,5 +80,29 @@ public class ARDController : MonoBehaviour
         }
         
         Debug.Log("ReachRight");
+    }
+
+    private void OnLeftClickRelease()
+    {
+        for (int i = 0; i < ActionStates.characterActions.Length; i++)
+        {
+            if(ActionStates.characterActions[i].actionType == ActionType.ReturnLeftHand)
+                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
+                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
+        }
+        
+        Debug.Log("LeftClickRelease");
+    }
+    
+    private void OnRightClickRelease()
+    {
+        for (int i = 0; i < ActionStates.characterActions.Length; i++)
+        {
+            if(ActionStates.characterActions[i].actionType == ActionType.ReturnRightHand)
+                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
+                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], rightHandTarget));
+        }
+        
+        Debug.Log("RightClickRelease");
     }
 }

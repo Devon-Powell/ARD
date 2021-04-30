@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8155d8aacc76b4c99341a2424bf192, type: 3}
   m_Name: PunchRightSO
   m_EditorClassIdentifier: 
-  actionType: 11
-  actionTimeInSeconds: 0.5
+  actionType: 12
+  actionTimeInSeconds: 0.2
   actionReturnTime: 0.3
-  prohibitedActions: 090000000a0000000b000000
+  prohibitedActions: 0d0000000a0000000b000000
   requiredActions: 
   xPositionCurve:
     serializedVersion: 2
@@ -31,7 +31,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.5
-      value: 0.5
+      value: -0.5
       inSlope: 0.0365499
       outSlope: 0.0365499
       tangentMode: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.057226866
-      value: 1
+      value: 0.19880939
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 1
+      value: 0.19880939
       inSlope: 0
       outSlope: 0
       tangentMode: 0

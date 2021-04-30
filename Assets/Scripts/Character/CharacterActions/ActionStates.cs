@@ -20,23 +20,15 @@ public static class ActionStates
         {
             int index = (int) action.prohibitedActions[i];
             if (currentActionStates[index])
-            {
-                Debug.Log("Action prohibited");
                 return false;
-            }
         }
 
         for (int i = 0; i < action.requiredActions.Length; i++)
         {
             int index = (int) action.requiredActions[i];
             if (currentActionStates[index])
-            {
-                Debug.Log("Missing required actions");
                 return false;
-            }
         }
-        
-        Debug.Log("Action Valid");
         return true;
     }
 
