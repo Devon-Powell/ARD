@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 public abstract class CharacterAction : ScriptableObject
 {
     [SerializeField] public ActionType actionType;
+    [SerializeField] public bool autoReturnToOrigin;
+    
+    public CharacterActionSequence[] characterActionSequence;
 
     [Space]
-    [Header("Action Attributes")]
-    [SerializeField] public float actionTimeInSeconds;
-    [SerializeField] public float actionReturnTime;
-
-    [Space]
-    [SerializeField] public ActionType[] prohibitedActions;
-    [SerializeField] public ActionType[] requiredActions;
+    public ActionType[] prohibitedActions;
+    public ActionType[] requiredActions;
 
     public virtual Vector3 GetIKTargetPath()
     {
@@ -29,12 +29,13 @@ public abstract class CharacterAction : ScriptableObject
         return pos;
     }
 
-    public virtual Vector3 ProgressCharacterAction(Transform target, Vector3 targetOrigin, Vector3 targetDestination, float currentTime)
+    public virtual async Task PlayAction(Transform target, int sequence)
     {
-        Vector3 position = new Vector3();
-
-        target.localPosition = Vector3.Lerp(targetOrigin, targetDestination, currentTime / actionTimeInSeconds + actionReturnTime);
         
-        return position;
+    }
+
+    public virtual void ReturnIKTargetToOrigin()
+    {
+        
     }
 }

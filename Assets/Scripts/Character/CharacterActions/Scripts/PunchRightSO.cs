@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 [CreateAssetMenu(fileName = nameof(PunchRightSO), menuName = "CharacterActions/Action" + nameof(PunchRightSO))]
 public class PunchRightSO : CharacterAction
 {
-    [Space]
-    [SerializeField] private AnimationCurve xPositionCurve;
-    [SerializeField] private AnimationCurve yPositionCurve;
-    [SerializeField] private AnimationCurve zPositionCurve;
-
     public override Vector3 GetIKTargetFinalPosition()
     {
         Vector3 position = new Vector3(0, 2.4f, 2);
@@ -18,21 +16,28 @@ public class PunchRightSO : CharacterAction
         return position;
     }
 
-    public override Vector3 ProgressCharacterAction(Transform target, Vector3 targetOrigin, Vector3 targetDestination, float currentTime)
+    public override async Task PlayAction(Transform target, int sequence)
     {
-        Vector3 position = new Vector3();
-
-        if (currentTime < actionTimeInSeconds)
-        {
-            position = Vector3.Lerp(targetOrigin, targetDestination, currentTime / actionTimeInSeconds);
-            position.x += xPositionCurve.Evaluate(currentTime / actionTimeInSeconds);   
-            position.y += yPositionCurve.Evaluate(currentTime / actionTimeInSeconds);
-        }
-        else
-        {
-            position = Vector3.Lerp(targetDestination, targetOrigin, (currentTime - actionTimeInSeconds) / actionReturnTime);
-        }
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
         
-        return position;
+        Vector3 targetOrigin = target.position;
+        Vector3 targetDestination = GetIKTargetFinalPosition();
+        
+        while (stopwatch.ElapsedMilliseconds < characterActionSequence[sequence].timeInMilliseconds && Application.isPlaying)
+        {
+            Vector3 position = Vector3.Lerp(targetOrigin, targetDestination, stopwatch.ElapsedMilliseconds / characterActionSequence[sequence].timeInMilliseconds);
+
+            position.x += characterActionSequence[sequence].xPositionModifier
+                .Evaluate(stopwatch.ElapsedMilliseconds / characterActionSequence[sequence].timeInMilliseconds);
+            position.y += characterActionSequence[sequence].yPositionModifier
+                .Evaluate(stopwatch.ElapsedMilliseconds / characterActionSequence[sequence].timeInMilliseconds);
+            position.z += characterActionSequence[sequence].zPositionModifier
+                .Evaluate(stopwatch.ElapsedMilliseconds / characterActionSequence[sequence].timeInMilliseconds);
+
+            target.position = position;
+
+            await Task.Yield();
+        }
     }
 }

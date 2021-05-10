@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class ARDController : MonoBehaviour
 {
+    public Dictionary<ActionType, CharacterAction> actionDictionary = new Dictionary<ActionType, CharacterAction>();
+    
     public Transform headLookTarget;
     public Transform leftHandTarget;
     public Transform rightHandTarget;
@@ -17,9 +20,29 @@ public class ARDController : MonoBehaviour
     private Vector3[] ikTargetLocalOrigins;
     private Quaternion[] ikTargetLocalRotations;
 
+    
+    public enum IKTargetType
+    {
+        HeadLook, LeftHand, RightHand, LeftFoot, RightFoot
+    }
+    public class IKTargetData
+    {
+        public Transform ikTargetTransform;
+        public Vector3 originPosition;
+    }
+
+    public Dictionary<IKTargetType, IKTargetData> ikTargetDictionary = new Dictionary<IKTargetType, IKTargetData>();
+
     private void Awake()
     {
-        //ikTargetLocalOrigins
+        CharacterAction[] characterActions = Resources.LoadAll<CharacterAction>("ScriptableObjects/CharacterActions");
+
+        for (int i = 0; i < characterActions.Length; i++)
+        {
+            actionDictionary.Add(characterActions[i].actionType, characterActions[i]);
+        }
+        
+        // ik target origins
     }
 
     private void OnMove(InputValue value)
@@ -33,76 +56,52 @@ public class ARDController : MonoBehaviour
         Debug.Log("Jump");
     }
 
-    private void OnPunchLeft()
+    private async Task OnPunchLeft()
     {
-        for (int i = 0; i < ActionStates.characterActions.Length; i++)
-        {
-            if(ActionStates.characterActions[i].actionType == ActionType.PunchLeft)
-                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
-                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
-        }
-        
-        
-        Debug.Log("PunchLeft");
+        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchLeft]))
+            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
     }
 
-    private void OnPunchRight()
+    private async Task OnPunchRight()
     {
-        for (int i = 0; i < ActionStates.characterActions.Length; i++)
-        {
-            if(ActionStates.characterActions[i].actionType == ActionType.PunchRight)
-                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
-                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], rightHandTarget));
-        }
-        
-        Debug.Log("PunchRight");
+        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchRight]))
+            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.PunchRight], rightHandTarget);
     }
 
-    private void OnReachLeft()
+    private async Task OnReachLeft()
     {
-        for (int i = 0; i < ActionStates.characterActions.Length; i++)
-        {
-            if(ActionStates.characterActions[i].actionType == ActionType.ReachLeft)
-                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
-                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
-        }
-        
-        Debug.Log("ReachLeft");
+        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.ReachLeft]))
+            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
     }
 
-    private void OnReachRight()
+    private async Task OnReachRight()
     {
-        for (int i = 0; i < ActionStates.characterActions.Length; i++)
-        {
-            if(ActionStates.characterActions[i].actionType == ActionType.ReachRight)
-                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
-                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], rightHandTarget));
-        }
-        
-        Debug.Log("ReachRight");
+        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.ReachRight]))
+            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.ReachRight], rightHandTarget);
     }
 
     private void OnLeftClickRelease()
     {
-        for (int i = 0; i < ActionStates.characterActions.Length; i++)
-        {
-            if(ActionStates.characterActions[i].actionType == ActionType.ReturnLeftHand)
-                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
-                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
-        }
-        
-        Debug.Log("LeftClickRelease");
+        // for (int i = 0; i < ActionHandler.characterActions.Length; i++)
+        // {
+        //     if(ActionHandler.characterActions[i].actionType == ActionType.ReturnLeftHand)
+        //         if (ActionHandler.CanActionPlay(ActionHandler.characterActions[i]))
+        //             PlayActionSequence(ActionHandler.characterActions[i], leftHandTarget);
+        //             // StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
+        // }
+        //
+        // Debug.Log("LeftClickRelease");
     }
     
     private void OnRightClickRelease()
     {
-        for (int i = 0; i < ActionStates.characterActions.Length; i++)
+        for (int i = 0; i < ActionHandler.characterActions.Length; i++)
         {
-            if(ActionStates.characterActions[i].actionType == ActionType.ReturnRightHand)
-                if (ActionStates.CanActionPlay(ActionStates.characterActions[i]))
-                    StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], rightHandTarget));
+            // if(ActionHandler.characterActions[i].actionType == ActionType.ReturnRightHand)
+            //     if (ActionHandler.CanActionPlay(ActionHandler.characterActions[i]))
+            //         StartCoroutine(ActionHandler.PlayCharacterAction(ActionHandler.characterActions[i], rightHandTarget));
         }
         
-        Debug.Log("RightClickRelease");
+        // Debug.Log("RightClickRelease");
     }
 }
