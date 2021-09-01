@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -17,11 +17,12 @@ public class ARDController : MonoBehaviour
     public Transform leftFootTarget;
     public Transform rightFootTarget;
 
+    public List<Transform> ikTargetTransforms;
+
     private Vector3[] ikTargetLocalOrigins;
     private Quaternion[] ikTargetLocalRotations;
-
     
-    public enum IKTargetType
+    public enum IKTargetType 
     {
         HeadLook, LeftHand, RightHand, LeftFoot, RightFoot
     }
@@ -41,7 +42,6 @@ public class ARDController : MonoBehaviour
         {
             actionDictionary.Add(characterActions[i].actionType, characterActions[i]);
         }
-        
         // ik target origins
     }
 
@@ -59,25 +59,25 @@ public class ARDController : MonoBehaviour
     private async Task OnPunchLeft()
     {
         if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchLeft]))
-            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
+            await actionDictionary[ActionType.PunchLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
     }
 
     private async Task OnPunchRight()
     {
         if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchRight]))
-            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.PunchRight], rightHandTarget);
+            await actionDictionary[ActionType.PunchRight].PlayActionSequence(actionDictionary[ActionType.PunchRight], rightHandTarget);
     }
 
     private async Task OnReachLeft()
     {
         if(ActionHandler.CanActionPlay(actionDictionary[ActionType.ReachLeft]))
-            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
+            await actionDictionary[ActionType.ReachLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
     }
 
     private async Task OnReachRight()
     {
         if(ActionHandler.CanActionPlay(actionDictionary[ActionType.ReachRight]))
-            await ActionHandler.PlayActionSequence(actionDictionary[ActionType.ReachRight], rightHandTarget);
+            await actionDictionary[ActionType.ReachRight].PlayActionSequence(actionDictionary[ActionType.ReachRight], rightHandTarget);
     }
 
     private void OnLeftClickRelease()

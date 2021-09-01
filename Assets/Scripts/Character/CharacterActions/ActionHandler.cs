@@ -34,12 +34,4 @@ public static class ActionHandler
         }
         return true;
     }
-
-    public static async Task PlayActionSequence(CharacterAction action, Transform target)
-    {
-        for (int i = 0; i < action.characterActionSequence.Length; i++)
-        {
-            await action.PlayAction(target, i);
-        }
-    }
 }

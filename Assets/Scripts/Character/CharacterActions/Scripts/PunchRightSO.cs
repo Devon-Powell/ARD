@@ -16,6 +16,18 @@ public class PunchRightSO : CharacterAction
         return position;
     }
 
+    public virtual async Task PlayActionSequence(CharacterAction action, Transform target)
+    {
+        for (int i = 0; i < action.characterActionSequence.Length; i++)
+        {
+            //await action.PlayAction(target, i);
+            await PlayAction(target, i);
+        }
+
+        if (autoReturnToOrigin)
+            await PlayAction(target);
+    }
+
     public override async Task PlayAction(Transform target, int sequence)
     {
         Stopwatch stopwatch = new Stopwatch();
