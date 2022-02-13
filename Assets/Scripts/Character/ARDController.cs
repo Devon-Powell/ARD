@@ -17,32 +17,27 @@ public class ARDController : MonoBehaviour
     public Transform leftFootTarget;
     public Transform rightFootTarget;
 
-    public List<Transform> ikTargetTransforms;
+    public List<IKTarget> ikTargets;
 
     private Vector3[] ikTargetLocalOrigins;
     private Quaternion[] ikTargetLocalRotations;
-    
-    public enum IKTargetType 
-    {
-        HeadLook, LeftHand, RightHand, LeftFoot, RightFoot
-    }
-    public class IKTargetData
-    {
-        public Transform ikTargetTransform;
-        public Vector3 originPosition;
-    }
 
     public Dictionary<IKTargetType, IKTargetData> ikTargetDictionary = new Dictionary<IKTargetType, IKTargetData>();
 
     private void Awake()
     {
+        // TODO ActionHandler has a static list, use that instead?
         CharacterAction[] characterActions = Resources.LoadAll<CharacterAction>("ScriptableObjects/CharacterActions");
 
         for (int i = 0; i < characterActions.Length; i++)
         {
             actionDictionary.Add(characterActions[i].actionType, characterActions[i]);
         }
-        // ik target origins
+
+        for (int i = 0; i < ikTargets.Count; i++)
+        {
+            ikTargetDictionary.Add(ikTargets[0].ikTargetType, ikTargets[0].ikTargetData);
+        }
     }
 
     private void OnMove(InputValue value)
@@ -58,8 +53,10 @@ public class ARDController : MonoBehaviour
 
     private async Task OnPunchLeft()
     {
+        Transform target = ikTargetDictionary[IKTargetType.LeftHand].ikTargetTransform;
+
         if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchLeft]))
-            await actionDictionary[ActionType.PunchLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
+            await actionDictionary[ActionType.PunchLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], target);
     }
 
     private async Task OnPunchRight()

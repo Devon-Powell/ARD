@@ -10,11 +10,11 @@ public abstract class CharacterAction : ScriptableObject
 {
     [SerializeField] public ActionType actionType;
     [SerializeField] public bool autoReturnToOrigin;
-    [SerializeField] public float returnTimeInMilliseconds;
 
+    [Space(25)]
     public CharacterActionSequence[] characterActionSequence;
 
-    [Space]
+    [Space(25)]
     public ActionType[] prohibitedActions;
     public ActionType[] requiredActions; 
     

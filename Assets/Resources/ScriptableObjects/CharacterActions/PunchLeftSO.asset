@@ -15,7 +15,7 @@ MonoBehaviour:
   actionType: 8
   autoReturnToOrigin: 1
   characterActionSequence:
-  - timeInMilliseconds: 2000
+  - timeInMilliseconds: 500
     xPositionModifier:
       serializedVersion: 2
       m_Curve: []
@@ -70,7 +70,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-  - timeInMilliseconds: 2000
+  - timeInMilliseconds: 500
     xPositionModifier:
       serializedVersion: 2
       m_Curve:
@@ -143,7 +143,7 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 0
       m_RotationOrder: 0
-  - timeInMilliseconds: 2000
+  - timeInMilliseconds: 500
     xPositionModifier:
       serializedVersion: 2
       m_Curve: []
@@ -162,7 +162,5 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 0
       m_RotationOrder: 0
-  actionTimeInSeconds: 0.5
-  actionReturnTime: 0.3
   prohibitedActions: 060000000700000008000000
   requiredActions: 

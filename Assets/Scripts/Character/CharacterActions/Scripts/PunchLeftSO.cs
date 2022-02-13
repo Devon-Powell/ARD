@@ -12,7 +12,7 @@ public class PunchLeftSO : CharacterAction
 {
     public override Vector3 GetIKTargetFinalPosition()
     {
-        Vector3 position = new Vector3(0, 2.4f, 2);
+        Vector3 position = new Vector3(-.1f, 2.35f, 1.45f);
         
         return position;
     }
