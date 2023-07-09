@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class CharacterActionSequence
 {
     public float timeInMilliseconds;
+
+    public Vector3 destination;
 
     public AnimationCurve xPositionModifier;
     public AnimationCurve yPositionModifier;

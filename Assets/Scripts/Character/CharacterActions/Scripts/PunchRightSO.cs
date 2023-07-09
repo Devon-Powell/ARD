@@ -1,39 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 [CreateAssetMenu(fileName = nameof(PunchRightSO), menuName = "CharacterActions/Action" + nameof(PunchRightSO))]
 public class PunchRightSO : CharacterAction
 {
     public override Vector3 GetIKTargetFinalPosition()
     {
-        Vector3 position = new Vector3(0, 2.4f, 2);
+        Vector3 position = new Vector3(-.1f, 2.35f, 1.45f);
         
         return position;
     }
-
-    public virtual async Task PlayActionSequence(CharacterAction action, Transform target)
-    {
-        for (int i = 0; i < action.characterActionSequence.Length; i++)
-        {
-            //await action.PlayAction(target, i);
-            await PlayAction(target, i);
-        }
-
-        if (autoReturnToOrigin)
-            await PlayAction(target);
-    }
-
-    public override async Task PlayAction(Transform target, int sequence)
+    
+    public override async Task PlayAction(IKTargetData targetData, int sequence)
     {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
         
-        Vector3 targetOrigin = target.position;
+        Vector3 targetOrigin = targetData.ikTargetTransform.localPosition;
         Vector3 targetDestination = GetIKTargetFinalPosition();
         
         while (stopwatch.ElapsedMilliseconds < characterActionSequence[sequence].timeInMilliseconds && Application.isPlaying)
@@ -47,7 +31,7 @@ public class PunchRightSO : CharacterAction
             position.z += characterActionSequence[sequence].zPositionModifier
                 .Evaluate(stopwatch.ElapsedMilliseconds / characterActionSequence[sequence].timeInMilliseconds);
 
-            target.position = position;
+            targetData.ikTargetTransform.position = position;
 
             await Task.Yield();
         }

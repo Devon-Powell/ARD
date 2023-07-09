@@ -1,27 +1,13 @@
-﻿//using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Random = UnityEngine.Random;
 
 public class ARDController : MonoBehaviour
 {
-    public Dictionary<ActionType, CharacterAction> actionDictionary = new Dictionary<ActionType, CharacterAction>();
-    
-    public Transform headLookTarget;
-    public Transform leftHandTarget;
-    public Transform rightHandTarget;
-    public Transform leftFootTarget;
-    public Transform rightFootTarget;
-
     public List<IKTarget> ikTargets;
-
-    private Vector3[] ikTargetLocalOrigins;
-    private Quaternion[] ikTargetLocalRotations;
-
+    
+    public Dictionary<ActionType, CharacterAction> actionDictionary = new Dictionary<ActionType, CharacterAction>();
     public Dictionary<IKTargetType, IKTargetData> ikTargetDictionary = new Dictionary<IKTargetType, IKTargetData>();
 
     private void Awake()
@@ -36,69 +22,28 @@ public class ARDController : MonoBehaviour
 
         for (int i = 0; i < ikTargets.Count; i++)
         {
-            ikTargetDictionary.Add(ikTargets[0].ikTargetType, ikTargets[0].ikTargetData);
+            ikTargetDictionary.Add(ikTargets[i].ikTargetType, ikTargets[i].ikTargetData);
         }
     }
-
-    private void OnMove(InputValue value)
-    {
-        
-        Debug.Log("Move" + value.Get<Vector2>());
-    }
     
-    private void OnJump()
-    {
-        Debug.Log("Jump");
-    }
-
     private async Task OnPunchLeft()
     {
-        Transform target = ikTargetDictionary[IKTargetType.LeftHand].ikTargetTransform;
+        Debug.Log("Punch Left");
+        
+        // TODO - Configure check for action type, so I don't have to manually add it here?
+        IKTargetData targetData = ikTargetDictionary[IKTargetType.LeftHand];
 
+        Debug.Log(targetData.ikTargetTransform);
+        
         if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchLeft]))
-            await actionDictionary[ActionType.PunchLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], target);
+            await actionDictionary[ActionType.PunchLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], targetData);
     }
 
     private async Task OnPunchRight()
     {
-        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchRight]))
-            await actionDictionary[ActionType.PunchRight].PlayActionSequence(actionDictionary[ActionType.PunchRight], rightHandTarget);
-    }
-
-    private async Task OnReachLeft()
-    {
-        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.ReachLeft]))
-            await actionDictionary[ActionType.ReachLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], leftHandTarget);
-    }
-
-    private async Task OnReachRight()
-    {
-        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.ReachRight]))
-            await actionDictionary[ActionType.ReachRight].PlayActionSequence(actionDictionary[ActionType.ReachRight], rightHandTarget);
-    }
-
-    private void OnLeftClickRelease()
-    {
-        // for (int i = 0; i < ActionHandler.characterActions.Length; i++)
-        // {
-        //     if(ActionHandler.characterActions[i].actionType == ActionType.ReturnLeftHand)
-        //         if (ActionHandler.CanActionPlay(ActionHandler.characterActions[i]))
-        //             PlayActionSequence(ActionHandler.characterActions[i], leftHandTarget);
-        //             // StartCoroutine(ActionStates.PlayCharacterAction(ActionStates.characterActions[i], leftHandTarget));
-        // }
-        //
-        // Debug.Log("LeftClickRelease");
-    }
-    
-    private void OnRightClickRelease()
-    {
-        for (int i = 0; i < ActionHandler.characterActions.Length; i++)
-        {
-            // if(ActionHandler.characterActions[i].actionType == ActionType.ReturnRightHand)
-            //     if (ActionHandler.CanActionPlay(ActionHandler.characterActions[i]))
-            //         StartCoroutine(ActionHandler.PlayCharacterAction(ActionHandler.characterActions[i], rightHandTarget));
-        }
+        IKTargetData targetData = ikTargetDictionary[IKTargetType.RightHand];
         
-        // Debug.Log("RightClickRelease");
+        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchRight]))
+            await actionDictionary[ActionType.PunchRight].PlayActionSequence(actionDictionary[ActionType.PunchRight], targetData);
     }
 }
