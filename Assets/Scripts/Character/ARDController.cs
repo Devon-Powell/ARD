@@ -7,6 +7,8 @@ public class ARDController : MonoBehaviour
 {
     public List<IKTarget> ikTargets;
     
+    private static bool[] currentActionStates;
+    
     public Dictionary<ActionType, CharacterAction> actionDictionary = new Dictionary<ActionType, CharacterAction>();
     public Dictionary<IKTargetType, IKTargetData> ikTargetDictionary = new Dictionary<IKTargetType, IKTargetData>();
 
@@ -35,7 +37,7 @@ public class ARDController : MonoBehaviour
 
         Debug.Log(targetData.ikTargetTransform);
         
-        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchLeft]))
+        if(CanActionPlay(actionDictionary[ActionType.PunchLeft]))
             await actionDictionary[ActionType.PunchLeft].PlayActionSequence(actionDictionary[ActionType.PunchLeft], targetData);
     }
 
@@ -43,7 +45,26 @@ public class ARDController : MonoBehaviour
     {
         IKTargetData targetData = ikTargetDictionary[IKTargetType.RightHand];
         
-        if(ActionHandler.CanActionPlay(actionDictionary[ActionType.PunchRight]))
+        if(CanActionPlay(actionDictionary[ActionType.PunchRight]))
             await actionDictionary[ActionType.PunchRight].PlayActionSequence(actionDictionary[ActionType.PunchRight], targetData);
+    }
+    
+    public bool CanActionPlay(CharacterAction action)
+    {
+        for (int i = 0; i < action.prohibitedActions.Length; i++)
+        {
+            int index = (int) action.prohibitedActions[i];
+            if (currentActionStates[index])
+                return false;
+        }
+
+        for (int i = 0; i < action.requiredActions.Length; i++)
+        {
+            int index = (int) action.requiredActions[i];
+            if (!currentActionStates[index])
+                return false;
+        }
+        
+        return true;
     }
 }
