@@ -13,8 +13,10 @@ public class PunchLeftSO : AnimationSequence
         return position;
     }
     
-    public override async Task PlayAnimation(IKTargetData targetData, int sequence)
+    public override async Task PlayAnimationClip(IKTargetData targetData, int clipIndex)
     {
+        AnimationClip clip = animationClips[clipIndex];
+        
         Debug.Log("PlayAnimation");
         
         Stopwatch stopwatch = new Stopwatch();
@@ -22,18 +24,19 @@ public class PunchLeftSO : AnimationSequence
         
         Vector3 targetOrigin = targetData.ikTargetTransform.localPosition;
         Debug.Log(targetOrigin);
-        Vector3 targetDestination = GetIKTargetFinalPosition();
+        //Vector3 targetDestination = GetIKTargetFinalPosition();
+        Vector3 targetDestination = clip.destination;
         
-        while (stopwatch.ElapsedMilliseconds < animationClips[sequence].timeInMilliseconds && Application.isPlaying)
+        while (stopwatch.ElapsedMilliseconds < clip.timeInMilliseconds && Application.isPlaying)
         {
-            Vector3 position = Vector3.Lerp(targetOrigin, targetDestination, stopwatch.ElapsedMilliseconds / animationClips[sequence].timeInMilliseconds);
+            Vector3 position = Vector3.Lerp(targetOrigin, targetDestination, stopwatch.ElapsedMilliseconds / clip.timeInMilliseconds);
 
-            position.x += animationClips[sequence].xPositionCurve
-                .Evaluate(stopwatch.ElapsedMilliseconds / animationClips[sequence].timeInMilliseconds);
-            position.y += animationClips[sequence].yPositionCurve
-                .Evaluate(stopwatch.ElapsedMilliseconds / animationClips[sequence].timeInMilliseconds);
-            position.z += animationClips[sequence].zPositionCurve
-                .Evaluate(stopwatch.ElapsedMilliseconds / animationClips[sequence].timeInMilliseconds);
+            position.x += clip.xPositionOffsetCurve
+                .Evaluate(stopwatch.ElapsedMilliseconds / clip.timeInMilliseconds);
+            position.y += clip.yPositionOffsetCurve
+                .Evaluate(stopwatch.ElapsedMilliseconds / clip.timeInMilliseconds);
+            position.z += clip.zPositionOffsetCurve
+                .Evaluate(stopwatch.ElapsedMilliseconds / clip.timeInMilliseconds);
 
             targetData.ikTargetTransform.localPosition = position;
 

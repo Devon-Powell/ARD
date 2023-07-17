@@ -24,7 +24,7 @@ public abstract class AnimationSequence : ScriptableObject
     {
         for (int i = 0; i < action.animationClips.Length; i++)
         {
-            await action.PlayAnimation(targetData, i);
+            await action.PlayAnimationClip(targetData, i);
         }
     }
    
@@ -32,7 +32,7 @@ public abstract class AnimationSequence : ScriptableObject
     {
         
     }
-    public virtual async Task PlayAnimation(IKTargetData targetData, int sequence)
+    public virtual async Task PlayAnimationClip(IKTargetData targetData, int clipIndex)
     {
         
     }

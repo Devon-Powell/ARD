@@ -9,7 +9,7 @@ public class AnimationClip
     public Vector3 destination;
 
     // Animation curves for modifying game object positions over time
-    public AnimationCurve xPositionCurve;
-    public AnimationCurve yPositionCurve;
-    public AnimationCurve zPositionCurve;
+    public AnimationCurve xPositionOffsetCurve;
+    public AnimationCurve yPositionOffsetCurve;
+    public AnimationCurve zPositionOffsetCurve;
 }
