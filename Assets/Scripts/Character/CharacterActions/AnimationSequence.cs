@@ -30,10 +30,10 @@ public abstract class AnimationSequence : ScriptableObject
    
     public virtual async Task PlayAnimation(IKTargetData targetData)
     {
-        
+        await Task.Yield();
     }
     public virtual async Task PlayAnimationClip(IKTargetData targetData, int clipIndex)
     {
-        
+        await Task.Yield();
     }
 }
