@@ -14,25 +14,16 @@ public class IKFabrik : MonoBehaviour
     [Header("Configurable Joint Attributes")] 
     [SerializeField] private ConfigurableJoint[] configurableJoints;
 
-    #region Private Variables
-    // cached values
+    #region Cached Variables
     private int numberOfJoints;
     private float[] jointLengths;
+    private float totalLengthOfJoints = 0;
+
     private Quaternion[] jointInitialRotations;
     private Vector3[] jointInitialDirections;
-    private float totalLengthOfJoints = 0;
-    private float targetDistanceFromLeaf;
-    
-    private Vector3 direction;
-    
-    private Quaternion jointRotation;
-    private Quaternion jointLocalRotation;
     private Quaternion[] configurableJointInitialRotations;
-    
-
-    private bool targetHasMoved;
     private Vector3 cachedTargetPosition;
-    #endregion Private Variables
+    #endregion Cached Variables
 
     private void Awake()
     {
@@ -53,37 +44,20 @@ public class IKFabrik : MonoBehaviour
         jointInitialDirections = new Vector3[numberOfJoints];
         jointInitialRotations = new Quaternion[numberOfJoints];
 
-        SetJointLengths();
-        SetJointRotations();
-        SetJointDirections();
-        
+        CacheInitialJointData();
         GetConfigurableJoints();  
     }
-    
-    private void SetJointLengths()
+
+    private void CacheInitialJointData()
     {
         jointLengths = new float[numberOfJoints];
-        totalLengthOfJoints = 0;
         for (int i = 0; i < numberOfJoints - 1; i++)
         {
             jointLengths[i] = Vector3.Distance(jointTransforms[i].position, jointTransforms[i + 1].position);
             totalLengthOfJoints += jointLengths[i];
-        }
-    }
-
-    private void SetJointRotations()
-    {
-        for (int i = 0; i < numberOfJoints - 1; i++)
-        {
             jointInitialRotations[i] = jointTransforms[i].rotation;
-        }
-    }
-
-    private void SetJointDirections()
-    {
-        for (int i = 0; i < numberOfJoints - 1; i++)
-        {
             jointInitialDirections[i] = jointTransforms[i + 1].position - jointTransforms[i].position;
+
         }
     }
     
@@ -92,7 +66,7 @@ public class IKFabrik : MonoBehaviour
         configurableJoints = new ConfigurableJoint[jointTransforms.Length];
         configurableJointInitialRotations = new Quaternion[jointTransforms.Length];
         
-        for (int i = 0; i < jointTransforms.Length; i++)
+        for (int i = 0; i < numberOfJoints; i++)
         {
             configurableJoints[i] = (ConfigurableJoint) jointTransforms[i].gameObject.GetComponent(typeof(ConfigurableJoint));
             configurableJoints[i].configuredInWorldSpace = false;
@@ -116,7 +90,7 @@ public class IKFabrik : MonoBehaviour
         else
         {
             // directly reach for target
-            direction = (targetPosition - cachedRootPosition).normalized;
+            var direction = (targetPosition - cachedRootPosition).normalized;
             for (int i = 1; i < numberOfJoints; i++)
             {
                 jointPositions[i] = jointPositions[i - 1] + direction * jointLengths[i - 1];
@@ -135,7 +109,7 @@ public class IKFabrik : MonoBehaviour
         {
             BackwardIKPass(jointPositions, targetPosition);
             ForwardIKPass(jointPositions, rootPosition);
-            targetDistanceFromLeaf = Vector3.Distance(jointPositions[numberOfJoints - 1], ikTarget.position);
+            var targetDistanceFromLeaf = Vector3.Distance(jointPositions[numberOfJoints - 1], ikTarget.position);
             bool withinMarginOfError = targetDistanceFromLeaf < tolerance;
             if (withinMarginOfError) 
                 break;
@@ -190,15 +164,12 @@ public class IKFabrik : MonoBehaviour
         return jointPositions;
     }
     
-
-    #endregion IKFabrik Solver
-
     private void ApplyJointRotations(Vector3[] jointPositions)
     {
         for (int i = 0; i < numberOfJoints - 1; i++)
         {
             // Rotates from the initial rotation of the joint towards the goal position of the child joint
-            jointRotation = Quaternion.FromToRotation(jointInitialDirections[i], jointPositions[i + 1] - jointPositions[i]) * Quaternion.Inverse(jointInitialRotations[i]);
+            var jointRotation = Quaternion.FromToRotation(jointInitialDirections[i], jointPositions[i + 1] - jointPositions[i]) * Quaternion.Inverse(jointInitialRotations[i]);
 
             if (i == 0)
             {
@@ -206,7 +177,7 @@ public class IKFabrik : MonoBehaviour
             }
             else
             {
-                jointLocalRotation = Quaternion.Inverse(jointTransforms[i - 1].rotation) * jointRotation;
+                var jointLocalRotation = Quaternion.Inverse(jointTransforms[i - 1].rotation) * jointRotation;
                 configurableJoints[i].SetTargetRotationLocal(jointLocalRotation, configurableJointInitialRotations[i]);
             }
         }
@@ -219,7 +190,8 @@ public class IKFabrik : MonoBehaviour
             jointTransforms[i].position = jointPositions[i];
         }
     }
-
+    #endregion IKFabrik Solver
+    
     #region Pole
     private void PoleConstraints()
     {
