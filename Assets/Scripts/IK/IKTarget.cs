@@ -2,13 +2,19 @@
 
 public class IKTarget : MonoBehaviour
 {
-    public IKTargetData ikTargetData = new IKTargetData();
+    
+    public IKTargetData ikTargetData = new ();
     public IKTargetType ikTargetType;
 
     public void OnEnable()
     {
-        // TODO - Possibly safe to remove ikTargetTransform, depending on reference
         ikTargetData.ikTargetTransform = transform;
         ikTargetData.origin = transform.localPosition;
     }
+}
+
+public class IKTargetData
+{
+    public Transform ikTargetTransform;
+    public Vector3 origin;
 }
