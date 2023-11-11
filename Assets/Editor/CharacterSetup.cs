@@ -1,9 +1,5 @@
-﻿using System;
-using System.Net.Http.Headers;
-using System.Security;
-using UnityEngine;
-using UnityEditor;
-
+﻿using UnityEngine;
+using UnityEditor; 
 
 public static class CharacterSetup
 {
