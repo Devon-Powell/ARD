@@ -4615,6 +4615,7 @@ GameObject:
   - component: {fileID: 1102200701}
   - component: {fileID: 1102200700}
   - component: {fileID: 1102200699}
+  - component: {fileID: 1102200705}
   m_Layer: 0
   m_Name: FIK - Fabrik / Actuator
   m_TagString: Untagged
@@ -4869,6 +4870,21 @@ Transform:
   - {fileID: 1740910322}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102200705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102200698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e119f4bc0f7fcf4d90e1874b91ad857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  spring: 1000
+  damper: 100
 --- !u!1 &1243230315
 GameObject:
   m_ObjectHideFlags: 0
