@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RootMotion.Dynamics
 {
     // Controls ConfigurableJoint.targetRotation and slerpDrive to match the localRotation of a target Transform.
     public class Actuator : MonoBehaviour
     {
-        public Transform target;
-        public float spring = 1000f;
+        public Quaternion solverResult;  // world space Rotation from solver
+        public float spring = 99999;
         public float damper = 100f;
 
         private Rigidbody r;
@@ -50,7 +51,9 @@ namespace RootMotion.Dynamics
             if (r.isKinematic) return;
 
             // Update joint.targetRotation
-            if (spring > 0f) joint.targetRotation = LocalToJointSpace(target.localRotation);
+            var xueer = LocalToJointSpace(WorldToLocalSpace(transform, solverResult));
+            
+            if (spring > 0f) joint.targetRotation = LocalToJointSpace(WorldToLocalSpace(transform, solverResult));
 
             // No need to update slerp drive if spring or damper haven't changed
             if (spring == lastSpring && damper == lastDamper) return;
@@ -68,6 +71,20 @@ namespace RootMotion.Dynamics
         private Quaternion LocalToJointSpace(Quaternion localRotation)
         {
             return toJointSpaceInverse * Quaternion.Inverse(localRotation) * toJointSpaceDefault;
+        }
+        
+        Quaternion WorldToLocalSpace(Transform objectTransform, Quaternion worldRotation)
+        {
+            // If the object doesn't have a parent, its local rotation is the same as its world rotation
+            if (objectTransform.parent == null)
+            {
+                return worldRotation;
+            }
+            else
+            {
+                // Convert the world rotation to local by multiplying it with the inverse of the parent's world rotation
+                return Quaternion.Inverse(objectTransform.parent.rotation) * worldRotation;
+            }
         }
 
     }

@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using RootMotion.Dynamics;
 
-	namespace RootMotion.FinalIK {
+namespace RootMotion.FinalIK {
 
 	/// <summary>
 	/// Forward and Backward Reaching Inverse Kinematics solver.
@@ -336,13 +337,14 @@ using System;
 		private void MapToSolverPositions() {
 			bones[0].transform.position = bones[0].solverPosition;
 			
-			for (int i = 0; i < bones.Length - 1; i++) {
+			/*for (int i = 0; i < bones.Length - 1; i++) {
 				if (XY) {
 					bones[i].Swing2D(bones[i + 1].solverPosition);
 				} else {
 					bones[i].Swing(bones[i + 1].solverPosition);
 				}
-			}
+			}*/
+			Actuator();
 		}
 
 		/*
@@ -351,9 +353,26 @@ using System;
 		private void MapToSolverPositionsLimited() {
             bones[0].transform.position = bones[0].solverPosition;
 
-			for (int i = 0; i < bones.Length; i++) {
+			/*for (int i = 0; i < bones.Length; i++) {
 				if (i < bones.Length - 1) bones[i].transform.rotation = bones[i].solverRotation;
+			}*/
+			Actuator();
+		}
+		
+		// todo:
+		// bones[i].solverRotation rfesultg of final IK
+		// convert world to local of the above to get B
+		// set actuator target local rotation to B 
+
+		private void Actuator()
+		{
+			for (int i = 0; i < bones.Length - 1; i++)
+			{
+				bones[i].transform.gameObject.GetComponent<Actuator>().solverResult = bones[i].solverRotation;
 			}
 		}
+		
+
+		
 	}
 }
