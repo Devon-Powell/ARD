@@ -1298,7 +1298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e119f4bc0f7fcf4d90e1874b91ad857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  solverResult: {x: 0, y: 0, z: 0, w: 0}
   spring: 1000
   damper: 100
 --- !u!153 &273334029
@@ -3644,7 +3644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e119f4bc0f7fcf4d90e1874b91ad857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  solverResult: {x: 0, y: 0, z: 0, w: 0}
   spring: 1000
   damper: 100
 --- !u!153 &840121296
@@ -4882,7 +4882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e119f4bc0f7fcf4d90e1874b91ad857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  solverResult: {x: 0, y: 0, z: 0, w: 0}
   spring: 1000
   damper: 100
 --- !u!1 &1243230315
@@ -5340,7 +5340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1436947738
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5925,7 +5925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e119f4bc0f7fcf4d90e1874b91ad857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  solverResult: {x: 0, y: 0, z: 0, w: 0}
   spring: 1000
   damper: 100
 --- !u!153 &1740910326
