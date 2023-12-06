@@ -4,12 +4,11 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 // Controls ConfigurableJoint.targetRotation and slerpDrive to match the localRotation of a target Transform.
-public class ActuatorMirror : MonoBehaviour
+public class ConfigurableJointActuator : MonoBehaviour
 {
     public Transform transformToMirror;
-    public Quaternion solverResult;  // world space Rotation from solver
-    public float spring = 99999;
-    public float damper = 100f;
+    public float spring = 4200;
+    public float damper = 200;
 
     private Rigidbody r;
     private ConfigurableJoint joint;
@@ -49,10 +48,8 @@ public class ActuatorMirror : MonoBehaviour
     {
         if (r.isKinematic) return;
 
-        // Update joint.targetRotation
-        var xueer = LocalToJointSpace(WorldToLocalSpace(transform, solverResult));
-        
-        if (spring > 0f) joint.targetRotation = LocalToJointSpace(WorldToLocalSpace(transform, solverResult));
+        //if (spring > 0f) joint.targetRotation = LocalToJointSpace(WorldToLocalSpace(transform, solverResult));
+        if (spring > 0f) joint.targetRotation = LocalToJointSpace(transformToMirror.localRotation);
 
         // No need to update slerp drive if spring or damper haven't changed
         if (spring == lastSpring && damper == lastDamper) return;
@@ -71,19 +68,4 @@ public class ActuatorMirror : MonoBehaviour
     {
         return toJointSpaceInverse * Quaternion.Inverse(localRotation) * toJointSpaceDefault;
     }
-    
-    Quaternion WorldToLocalSpace(Transform objectTransform, Quaternion worldRotation)
-    {
-        // If the object doesn't have a parent, its local rotation is the same as its world rotation
-        if (objectTransform.parent == null)
-        {
-            return worldRotation;
-        }
-        else
-        {
-            // Convert the world rotation to local by multiplying it with the inverse of the parent's world rotation
-            return Quaternion.Inverse(objectTransform.parent.rotation) * worldRotation;
-        }
-    }
-
 }
