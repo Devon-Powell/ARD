@@ -1,19 +1,23 @@
 using System;
 using UnityEngine;
+using MiniTools;
+using MiniTools.BetterGizmos;
 
 public class GizmoDrawer : MonoBehaviour
 {
     public enum GizmoType
     {
         Cube,
-        Sphere,
-        WireSphere,
-        WireCube
+        Arrow,
+        SimpleCapsule,
     }
 
     public GizmoType gizmoType = GizmoType.Cube;
     public Color gizmoColor = Color.yellow;
     public float gizmoSize = 1.0f;
+
+    public float height;
+    public float radius;
 
     private void OnDrawGizmos()
     {
@@ -22,16 +26,12 @@ public class GizmoDrawer : MonoBehaviour
         switch (gizmoType)
         {
             case GizmoType.Cube:
-                Gizmos.DrawCube(transform.position, Vector3.one * gizmoSize);
+                //BetterGizmos.DrawBox();
                 break;
-            case GizmoType.Sphere:
-                Gizmos.DrawSphere(transform.position, 0.5f * gizmoSize);
-                break;
-            case GizmoType.WireSphere:
-                Gizmos.DrawWireSphere(transform.position, 0.5f * gizmoSize);
-                break;
-            case GizmoType.WireCube:
-                Gizmos.DrawWireCube(transform.position, Vector3.one * gizmoSize);
+            case GizmoType.SimpleCapsule:
+                // Simple capsule
+                Vector3 capsulePos = new Vector3(0, 0, 0);
+                BetterGizmos.DrawCapsule(gizmoColor, transform.position, transform.forward, height, radius);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
