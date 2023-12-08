@@ -16,7 +16,7 @@ public class GizmoDrawer : MonoBehaviour
     public Color gizmoColor = Color.yellow;
     public float gizmoSize = 1.0f;
 
-    public float height;
+    public float height; // only used for capsule, ideal to have custom editor
     public float radius = 0.1f;
 
     private void OnDrawGizmos()
