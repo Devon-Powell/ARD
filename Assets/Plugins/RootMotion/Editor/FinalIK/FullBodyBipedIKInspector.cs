@@ -101,7 +101,7 @@ using System.Collections;
 			// Draw the scene veiw helpers
 			if (!script.references.isFilled) return;
 
-			IKSolverFullBodyBipedInspector.AddScene(target, script.solver, color, ref selectedEffector, script.transform);
+			// IKSolverFullBodyBipedInspector.AddScene(target, script.solver, color, ref selectedEffector, script.transform);  we are drawing using OnDrawGizmo in scene instead
 		}
 	}
 }
