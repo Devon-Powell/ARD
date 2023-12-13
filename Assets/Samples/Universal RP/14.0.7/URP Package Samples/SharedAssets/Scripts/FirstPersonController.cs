@@ -1,7 +1,7 @@
 using UnityEngine;
 using Cursor = UnityEngine.Cursor;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(UnityEngine.CharacterController))]
 public class FirstPersonController : MonoBehaviour
 {
     [SerializeField]
@@ -13,7 +13,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField]
     private bool m_MoveWithMouse = true;
 
-    private CharacterController m_CharacterController;
+    private UnityEngine.CharacterController m_CharacterController;
     private float m_XRotation = 0f;
     [SerializeField]
     private byte m_ButtonMovementFlags;
@@ -28,7 +28,7 @@ public class FirstPersonController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
-        m_CharacterController = GetComponent<CharacterController>();
+        m_CharacterController = GetComponent<UnityEngine.CharacterController>();
     }
 
     void Update()

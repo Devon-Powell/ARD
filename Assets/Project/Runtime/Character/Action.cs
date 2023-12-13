@@ -2,7 +2,7 @@
 using UnityEngine.Serialization;
 
 [System.Serializable]
-public class AnimationClip
+public abstract class Action
 {
     
     public float timeInMilliseconds;
