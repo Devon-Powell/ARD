@@ -1,36 +1,45 @@
+using System.Collections.Generic;
 
+/// <summary>
+/// The abstract superclass for defining state-specific logic as part of a state machine.
+/// </summary>
 public abstract class CharacterState
 {
-    private CharacterState currentCharacterState;
+    /// <summary>
+    /// The state machine that owns this state object.
+    /// </summary>
+    public CharacterStateMachine StateMachine;
+    public List<CharacterStateMachineSO.CharacterStateType> ValidToStates;
+  
+    // The abstract constructor
+    protected CharacterState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates)
+    {
+        StateMachine = stateMachine;
+        ValidToStates = validToStates;
+    }
+  
+    /// <summary>
+    /// Initializes a state object.
+    /// </summary>
+    public abstract void Init();
+    
+    /// <summary>
+    /// Returns a Boolean value indicating whether a state machine currently in this state is allowed to transition into the specified state.
+    /// </summary>
+    public abstract bool IsValidNextState(CharacterState state);
+    
+    /// <summary>
+    /// Performs custom actions when a state machine transitions into this state.
+    /// </summary>
+    public abstract void DidEnter(CharacterState fromState);
 
-    private void Init()
-    {
-        
-    }
-    
     /// <summary>
-    /// Returns a Boolean value indicating whether it is valid for the state machine to transition from its current state to a state of the specified class.
+    /// Performs custom actions when a state machine updates while in this state.
     /// </summary>
-    /// <returns></returns>
-    private bool CanEnterState()
-    {
-        return false;
-    }
-    
-    /// <summary>
-    /// Attempts to transition the state machine from its current state to a state of the specified class.
-    /// </summary>
-    /// <returns></returns>
-    private bool Enter()
-    {
-        return false;
-    }
-    
-    /// <summary>
-    /// Tells the current state object to perform per-frame updates.
-    /// </summary>
-    private void Update()
-    {
-    }
+    public abstract void Update();
 
+    /// <summary>
+    /// Performs custom actions when a state machine transitions out of this state.
+    /// </summary>
+    public abstract bool WillExit(CharacterState toState);
 }
