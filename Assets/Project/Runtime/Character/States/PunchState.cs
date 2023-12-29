@@ -29,7 +29,7 @@ public class PunchState: CharacterState
         throw new System.NotImplementedException();
     }
 
-    public PunchState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates) : base(stateMachine, validToStates)
+    public PunchState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
     {
     }
 }

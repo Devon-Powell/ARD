@@ -47,7 +47,7 @@ public class FallState: CharacterState
         // }
         // else
         // {
-        //     StateMachine.TransitionToState(new IdleState()); // Transition to IdleState upon ground contact
+        //     stateMachine.TransitionToState(new IdleState()); // Transition to IdleState upon ground contact
         // }
     }
 
@@ -63,7 +63,7 @@ public class FallState: CharacterState
             return false;
     }
     
-    public FallState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates) : base(stateMachine, validToStates)
+    public FallState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
     {
     }
 

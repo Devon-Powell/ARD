@@ -29,7 +29,7 @@ public class ReachState: CharacterState
         throw new System.NotImplementedException();
     }
 
-    public ReachState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates) : base(stateMachine, validToStates)
+    public ReachState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
     {
     }
 }

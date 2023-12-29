@@ -29,7 +29,7 @@ public class IdleState: CharacterState
         throw new System.NotImplementedException();
     }
 
-    public IdleState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates) : base(stateMachine, validToStates)
+    public IdleState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
     {
     }
 }

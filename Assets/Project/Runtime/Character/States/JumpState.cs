@@ -29,7 +29,7 @@ public class JumpState: CharacterState
         throw new System.NotImplementedException();
     }
 
-    public JumpState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates) : base(stateMachine, validToStates)
+    public JumpState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
     {
     }
 }

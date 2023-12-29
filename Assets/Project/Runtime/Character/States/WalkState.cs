@@ -29,7 +29,7 @@ public class WalkState: CharacterState
         throw new System.NotImplementedException();
     }
 
-    public WalkState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates) : base(stateMachine, validToStates)
+    public WalkState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
     {
     }
 }

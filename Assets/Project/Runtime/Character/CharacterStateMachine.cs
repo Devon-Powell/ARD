@@ -9,26 +9,65 @@ using UnityEngine;
 /// </summary>
 public class CharacterStateMachine
 {
-    public CharacterState CurrentState { get; private set; }
+    public CharacterState currentState { get; private set; } //
+    private CharacterStateFactory _stateFactory;
 
-    private List<CharacterState> states;
+    public FallState fallState;
+    public IdleState idleState;
+    public JumpState jumpState;
+    public PunchState punchState;
+    public ReachState reachState;
+    public WalkState walkState;
+
+    
+    public CharacterStateMachine(CharacterController player, CharacterStateMachineSO data)
+    {
+        _stateFactory = new CharacterStateFactory(data);
+        foreach (var transition in data.StateTransitions)  //todo: dumb
+        {
+            var state = _stateFactory.CreateState(transition.FromState, player);
+            if (transition.FromState == data.DefaultState)
+            {
+                currentState = state;
+            }
+
+            if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Fall)
+            {
+                fallState = state as FallState;
+            }
+            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Punch)
+            {
+                punchState = state as PunchState;
+            }
+            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Reach)
+            {
+                reachState = state as ReachState;
+            }
+            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Walk)
+            {
+                walkState = state as WalkState; 
+            }
+            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Idle)
+            {
+                idleState = state as IdleState; 
+            }
+            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Jump)
+            {
+                jumpState = state as JumpState; 
+            }
+            else
+            {
+                throw new NotImplementedException($"{transition.FromState} State not implemented");
+            }
+        }
+    }
     
     /// <summary>
     /// Initializes a state machine with the specified states.
     /// </summary>
-    public void Init(List<CharacterState> states, CharacterState defaultState)
+    public void Init()
     {
-        // Initialize the states list with the states provided
-        this.states = states ?? throw new ArgumentNullException(nameof(states));
-
-        // Set the initial state to the first state provided in the list, if any
-        if (states.Count > 0)
-        {
-            CurrentState = defaultState;
-            CurrentState.StateMachine = this;
-        }
-
-        Log();
+        currentState.DidEnter(currentState);  
     }
     
     /// <summary>
@@ -36,21 +75,21 @@ public class CharacterStateMachine
     /// </summary>
     public void TransitionToState(CharacterState state)
     {
-        if (CurrentState != null)
+        if (currentState != null)
         {
-            if (CurrentState.WillExit(state))
+            if (currentState.WillExit(state))
             {
-                CharacterState fromState = CurrentState;
-                CurrentState = state;
-                CurrentState.StateMachine = this;
-                CurrentState.DidEnter(fromState);
+                CharacterState fromState = currentState;
+                currentState = state;
+                currentState.stateMachine = this;
+                currentState.DidEnter(fromState);
             }
         }
         else
         {
-            CurrentState = state;
-            CurrentState.StateMachine = this;
-            CurrentState.DidEnter(null);
+            currentState = state;
+            currentState.stateMachine = this;
+            currentState.DidEnter(null);
         }
     }
     
@@ -60,7 +99,7 @@ public class CharacterStateMachine
     /// </summary>
     public bool CanEnterState(CharacterState state)
     {
-        return CurrentState == null || CurrentState.WillExit(state);
+        return currentState == null || currentState.WillExit(state);
     }
     
     /// <summary>
@@ -84,7 +123,7 @@ public class CharacterStateMachine
     /// </summary>
     public void Update()
     {
-        CurrentState.Update();
+        currentState.Update();
     }
     
     /*/// <summary>
@@ -94,9 +133,36 @@ public class CharacterStateMachine
     {
         return new CharacterState();
     }*/
+}
 
-    private void Log()
+public class CharacterStateFactory
+{
+    public CharacterStateMachine StateMachine;
+    private readonly Dictionary<CharacterStateMachineSO.CharacterStateType, List<CharacterStateMachineSO.CharacterStateType>> _states;
+    
+    public CharacterStateFactory(CharacterStateMachineSO data)
     {
-        Debug.Log($"Character State Machine \n Current State {CurrentState} \n");
+        _states = data.GetStateData();
+    }
+    
+    public CharacterState CreateState(CharacterStateMachineSO.CharacterStateType type, CharacterController player)
+    {
+        switch (type)
+        {
+            case CharacterStateMachineSO.CharacterStateType.Idle:
+                return new IdleState(StateMachine, _states[type], player);
+            case CharacterStateMachineSO.CharacterStateType.Walk:
+                return new WalkState(StateMachine, _states[type], player);
+            case CharacterStateMachineSO.CharacterStateType.Jump:
+                return new JumpState(StateMachine, _states[type], player);
+            case CharacterStateMachineSO.CharacterStateType.Punch:
+                return new PunchState(StateMachine, _states[type], player);
+            case CharacterStateMachineSO.CharacterStateType.Reach:
+                return new ReachState(StateMachine, _states[type], player);
+            case CharacterStateMachineSO.CharacterStateType.Fall:
+                return new FallState(StateMachine, _states[type], player);
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        }
     }
 }

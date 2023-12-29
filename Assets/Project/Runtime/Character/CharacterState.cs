@@ -8,14 +8,16 @@ public abstract class CharacterState
     /// <summary>
     /// The state machine that owns this state object.
     /// </summary>
-    public CharacterStateMachine StateMachine;
-    public List<CharacterStateMachineSO.CharacterStateType> ValidToStates;
+    public CharacterStateMachine stateMachine;
+    public List<CharacterStateMachineSO.CharacterStateType> validToStates;
+    public CharacterController player;
   
     // The abstract constructor
-    protected CharacterState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates)
+    protected CharacterState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player)
     {
-        StateMachine = stateMachine;
-        ValidToStates = validToStates;
+        this.stateMachine = stateMachine;
+        this.validToStates = validToStates;
+        this.player = player;
     }
   
     /// <summary>
