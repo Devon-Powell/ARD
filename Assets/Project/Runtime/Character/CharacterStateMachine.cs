@@ -98,6 +98,5 @@ public class CharacterStateMachine
     private void Log()
     {
         Debug.Log($"Character State Machine \n Current State {CurrentState} \n");
-
     }
 }

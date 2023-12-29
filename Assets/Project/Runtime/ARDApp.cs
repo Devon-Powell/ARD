@@ -6,29 +6,26 @@ using UnityEngine;
 public class ARDApp : MonoBehaviour
 {
     private string SOPath = "Data/ScriptableObjects";
-    private string characterStateMachineSOKey = "CharacterStateMachineSO";
+    private string characterStateMachineSOKey = "Data/ScriptableObjects/CharacterStateMachineSO";
 
     private CharacterController characterController;
     private CharacterStateMachineSO characterSMData;
     void Awake()
     {
-        characterController = new CharacterController(characterSMData);
-        
-        
+        Load();
+
     }
 
-    private IEnumerator Load()
+    private void Load()
     {
-        ResourceRequest request = Resources.LoadAsync<CharacterStateMachineSO>(characterStateMachineSOKey);
-        yield return request;
-        
-        characterSMData = request.asset as CharacterStateMachineSO;
+        characterSMData = Resources.Load<CharacterStateMachineSO>(characterStateMachineSOKey);
 
     }
     private void Start()
     {
-        characterController.Start();
+        characterController = new CharacterController(characterSMData);
 
+        characterController.Start();
     }
 
     private void Update()
