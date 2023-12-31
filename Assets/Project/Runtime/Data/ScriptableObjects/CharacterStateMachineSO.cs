@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[CreateAssetMenu(fileName = nameof(CharacterStateMachineSO), menuName = "stateMachine/CharacterStates")]
+[CreateAssetMenu(fileName = nameof(CharacterStateMachineSO), menuName = "ScriptableObject/StateMachine/Character")]
 public class CharacterStateMachineSO : ScriptableObject
 {
     public CharacterStateType DefaultState;

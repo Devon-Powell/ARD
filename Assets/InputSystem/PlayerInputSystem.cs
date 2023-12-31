@@ -24,7 +24,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     ""name"": ""PlayerInputSystem"",
     ""maps"": [
         {
-            ""name"": ""ARDControls"",
+            ""name"": ""Gameplay"",
             ""id"": ""e242c184-e586-4f66-b9b0-f037afcd8c66"",
             ""actions"": [
                 {
@@ -815,16 +815,16 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // ARDControls
-        m_ARDControls = asset.FindActionMap("ARDControls", throwIfNotFound: true);
-        m_ARDControls_Move = m_ARDControls.FindAction("Move", throwIfNotFound: true);
-        m_ARDControls_PunchLeft = m_ARDControls.FindAction("PunchLeft", throwIfNotFound: true);
-        m_ARDControls_PunchRight = m_ARDControls.FindAction("PunchRight", throwIfNotFound: true);
-        m_ARDControls_ReachLeft = m_ARDControls.FindAction("ReachLeft", throwIfNotFound: true);
-        m_ARDControls_ReachRight = m_ARDControls.FindAction("ReachRight", throwIfNotFound: true);
-        m_ARDControls_Jump = m_ARDControls.FindAction("Jump", throwIfNotFound: true);
-        m_ARDControls_LeftClickRelease = m_ARDControls.FindAction("LeftClickRelease", throwIfNotFound: true);
-        m_ARDControls_RightClickRelease = m_ARDControls.FindAction("RightClickRelease", throwIfNotFound: true);
+        // Gameplay
+        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
+        m_Gameplay_PunchLeft = m_Gameplay.FindAction("PunchLeft", throwIfNotFound: true);
+        m_Gameplay_PunchRight = m_Gameplay.FindAction("PunchRight", throwIfNotFound: true);
+        m_Gameplay_ReachLeft = m_Gameplay.FindAction("ReachLeft", throwIfNotFound: true);
+        m_Gameplay_ReachRight = m_Gameplay.FindAction("ReachRight", throwIfNotFound: true);
+        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+        m_Gameplay_LeftClickRelease = m_Gameplay.FindAction("LeftClickRelease", throwIfNotFound: true);
+        m_Gameplay_RightClickRelease = m_Gameplay.FindAction("RightClickRelease", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -895,38 +895,38 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // ARDControls
-    private readonly InputActionMap m_ARDControls;
-    private List<IARDControlsActions> m_ARDControlsActionsCallbackInterfaces = new List<IARDControlsActions>();
-    private readonly InputAction m_ARDControls_Move;
-    private readonly InputAction m_ARDControls_PunchLeft;
-    private readonly InputAction m_ARDControls_PunchRight;
-    private readonly InputAction m_ARDControls_ReachLeft;
-    private readonly InputAction m_ARDControls_ReachRight;
-    private readonly InputAction m_ARDControls_Jump;
-    private readonly InputAction m_ARDControls_LeftClickRelease;
-    private readonly InputAction m_ARDControls_RightClickRelease;
-    public struct ARDControlsActions
+    // Gameplay
+    private readonly InputActionMap m_Gameplay;
+    private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+    private readonly InputAction m_Gameplay_Move;
+    private readonly InputAction m_Gameplay_PunchLeft;
+    private readonly InputAction m_Gameplay_PunchRight;
+    private readonly InputAction m_Gameplay_ReachLeft;
+    private readonly InputAction m_Gameplay_ReachRight;
+    private readonly InputAction m_Gameplay_Jump;
+    private readonly InputAction m_Gameplay_LeftClickRelease;
+    private readonly InputAction m_Gameplay_RightClickRelease;
+    public struct GameplayActions
     {
         private @PlayerInputSystem m_Wrapper;
-        public ARDControlsActions(@PlayerInputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_ARDControls_Move;
-        public InputAction @PunchLeft => m_Wrapper.m_ARDControls_PunchLeft;
-        public InputAction @PunchRight => m_Wrapper.m_ARDControls_PunchRight;
-        public InputAction @ReachLeft => m_Wrapper.m_ARDControls_ReachLeft;
-        public InputAction @ReachRight => m_Wrapper.m_ARDControls_ReachRight;
-        public InputAction @Jump => m_Wrapper.m_ARDControls_Jump;
-        public InputAction @LeftClickRelease => m_Wrapper.m_ARDControls_LeftClickRelease;
-        public InputAction @RightClickRelease => m_Wrapper.m_ARDControls_RightClickRelease;
-        public InputActionMap Get() { return m_Wrapper.m_ARDControls; }
+        public GameplayActions(@PlayerInputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Gameplay_Move;
+        public InputAction @PunchLeft => m_Wrapper.m_Gameplay_PunchLeft;
+        public InputAction @PunchRight => m_Wrapper.m_Gameplay_PunchRight;
+        public InputAction @ReachLeft => m_Wrapper.m_Gameplay_ReachLeft;
+        public InputAction @ReachRight => m_Wrapper.m_Gameplay_ReachRight;
+        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
+        public InputAction @LeftClickRelease => m_Wrapper.m_Gameplay_LeftClickRelease;
+        public InputAction @RightClickRelease => m_Wrapper.m_Gameplay_RightClickRelease;
+        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(ARDControlsActions set) { return set.Get(); }
-        public void AddCallbacks(IARDControlsActions instance)
+        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+        public void AddCallbacks(IGameplayActions instance)
         {
-            if (instance == null || m_Wrapper.m_ARDControlsActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_ARDControlsActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -953,7 +953,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @RightClickRelease.canceled += instance.OnRightClickRelease;
         }
 
-        private void UnregisterCallbacks(IARDControlsActions instance)
+        private void UnregisterCallbacks(IGameplayActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -981,21 +981,21 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @RightClickRelease.canceled -= instance.OnRightClickRelease;
         }
 
-        public void RemoveCallbacks(IARDControlsActions instance)
+        public void RemoveCallbacks(IGameplayActions instance)
         {
-            if (m_Wrapper.m_ARDControlsActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IARDControlsActions instance)
+        public void SetCallbacks(IGameplayActions instance)
         {
-            foreach (var item in m_Wrapper.m_ARDControlsActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_ARDControlsActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public ARDControlsActions @ARDControls => new ARDControlsActions(this);
+    public GameplayActions @Gameplay => new GameplayActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -1159,7 +1159,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_XRSchemeIndex];
         }
     }
-    public interface IARDControlsActions
+    public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnPunchLeft(InputAction.CallbackContext context);
