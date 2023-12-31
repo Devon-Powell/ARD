@@ -77,3 +77,6 @@ Assets/Plugins/Infinity Code/Ultimate Editor Enhancer Settings/References.asset
 Assets/Plugins/Infinity Code/Ultimate Editor Enhancer Settings/References.asset.meta
 ProjectSettings/EditorBuildSettings.asset
 ProjectSettings/EditorSettings.asset
+
+# Developers folder for sandbox
+/Assets/Developers/
