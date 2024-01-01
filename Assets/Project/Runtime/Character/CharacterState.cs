@@ -1,29 +1,27 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// The abstract superclass for defining state-specific logic as part of a state machine.
 /// </summary>
-public abstract class CharacterState
+public abstract class CharacterState : ScriptableObject
 {
     /// <summary>
     /// The state machine that owns this state object.
     /// </summary>
     public CharacterStateMachine stateMachine;
-    public List<CharacterStateMachineSO.CharacterStateType> validToStates;
+    public List<CharacterState> validToStates;
     public CharacterController player;
-  
-    // The abstract constructor
-    protected CharacterState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player)
+
+    /// <summary>
+    /// Initializes a state object.
+    /// </summary>
+    public void Init(CharacterStateMachine stateMachine, List<CharacterState> validToStates, CharacterController player)
     {
         this.stateMachine = stateMachine;
         this.validToStates = validToStates;
         this.player = player;
     }
-  
-    /// <summary>
-    /// Initializes a state object.
-    /// </summary>
-    public abstract void Init();
     
     /// <summary>
     /// Returns a Boolean value indicating whether a state machine currently in this state is allowed to transition into the specified state.

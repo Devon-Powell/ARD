@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController
+public class CharacterController: MonoBehaviour
 {
     public CharacterStateMachine StateMachine { get; private set; }
     private CharacterStateMachineSO _characterSMData;
-    private CharacterController _player;
 
-    public CharacterController(CharacterStateMachineSO characterSmData)
+    public void Init(CharacterStateMachineSO characterSmData)
     {
         _characterSMData = characterSmData;
-    }
-    
-    public void Start()
-    {
-        StateMachine = new CharacterStateMachine(_player,_characterSMData);
+        StateMachine = new CharacterStateMachine(this, _characterSMData);
         StateMachine.Init();
     }
 
-    public void Update()
+    public void OnUpdate()
     {
         StateMachine.Update();
     }

@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93584deff3c18f84a8e7bc68b14514dc, type: 3}
   m_Name: CharacterStateMachineSO
   m_EditorClassIdentifier: 
-  DefaultState: 0
+  DefaultState: {fileID: 11400000, guid: 7fc18d0d54c2bc44c931fd5048064eaf, type: 2}
   StateTransitions:
-  - FromState: 0
-    ToState: 02000000030000000400000005000000
-  - FromState: 1
-    ToState: 
+  - FromState: {fileID: 11400000, guid: 7fc18d0d54c2bc44c931fd5048064eaf, type: 2}
+    ToStates:
+    - {fileID: 11400000, guid: 7914d0944d009e64dac657dda271cdf4, type: 2}
+    - {fileID: 11400000, guid: 2a27ebdc29ed30d498d55e927134ddd7, type: 2}
+  - FromState: {fileID: 11400000, guid: 7914d0944d009e64dac657dda271cdf4, type: 2}
+    ToStates:
+    - {fileID: 11400000, guid: 2a27ebdc29ed30d498d55e927134ddd7, type: 2}
+    - {fileID: 11400000, guid: 7fc18d0d54c2bc44c931fd5048064eaf, type: 2}
+  - FromState: {fileID: 11400000, guid: 2a27ebdc29ed30d498d55e927134ddd7, type: 2}
+    ToStates:
+    - {fileID: 11400000, guid: 7fc18d0d54c2bc44c931fd5048064eaf, type: 2}

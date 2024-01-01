@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae10875027bd3644adc3bf5937901ae, type: 3}
+  m_Name: MoveSequence
+  m_EditorClassIdentifier: 
+  fromState: {fileID: 11400000, guid: 7fc18d0d54c2bc44c931fd5048064eaf, type: 2}
+  toState: {fileID: 11400000, guid: 7914d0944d009e64dac657dda271cdf4, type: 2}
+  actions:
+  - {fileID: 11400000, guid: 97ffeabe301d55b43b5f4b61bc8c52cf, type: 2}
+  - {fileID: 11400000, guid: ae7c062fe8aad3b4b8b42a995e615551, type: 2}

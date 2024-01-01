@@ -1,16 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = nameof(FallState), menuName = "ScriptableObject/CharacterState/FallState")]
 public class FallState: CharacterState
 {
     private Rigidbody characterRigidbody;
-    
-
-    
-    public override void Init()
-    {
-        
-    }
 
     public override bool IsValidNextState(CharacterState state)
     {
@@ -62,9 +56,4 @@ public class FallState: CharacterState
         else
             return false;
     }
-    
-    public FallState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
-    {
-    }
-
 }

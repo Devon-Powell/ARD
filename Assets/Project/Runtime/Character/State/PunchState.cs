@@ -1,13 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+[CreateAssetMenu(fileName = nameof(PunchState), menuName = "ScriptableObject/CharacterState/PunchState")]
 public class PunchState: CharacterState
 {
-    public override void Init()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override bool IsValidNextState(CharacterState state)
     {
         throw new System.NotImplementedException();
@@ -27,9 +22,5 @@ public class PunchState: CharacterState
     public override bool WillExit(CharacterState toState)
     {
         throw new System.NotImplementedException();
-    }
-
-    public PunchState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
-    {
     }
 }

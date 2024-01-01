@@ -10,7 +10,6 @@ using UnityEngine;
 public class CharacterStateMachine
 {
     public CharacterState currentState { get; private set; } //
-    private CharacterStateFactory _stateFactory;
 
     public FallState fallState;
     public IdleState idleState;
@@ -18,42 +17,41 @@ public class CharacterStateMachine
     public PunchState punchState;
     public ReachState reachState;
     public WalkState walkState;
-
     
     public CharacterStateMachine(CharacterController player, CharacterStateMachineSO data)
     {
-        _stateFactory = new CharacterStateFactory(data);
+        var states = data.GetStateData();
         foreach (var transition in data.StateTransitions)  //todo: dumb
         {
-            var state = _stateFactory.CreateState(transition.FromState, player);
+            transition.FromState.Init(this, states[transition.FromState], player);
             if (transition.FromState == data.DefaultState)
             {
-                currentState = state;
+                currentState =  transition.FromState;
             }
 
-            if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Fall)
+            if (transition.FromState is FallState)
             {
-                fallState = state as FallState;
+                fallState =  transition.FromState as FallState;
             }
-            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Punch)
+            else if (transition.FromState is PunchState)
             {
-                punchState = state as PunchState;
+                punchState =  transition.FromState as PunchState;
             }
-            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Reach)
+            else if (transition.FromState is ReachState)
             {
-                reachState = state as ReachState;
+                reachState =  transition.FromState as ReachState;
             }
-            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Walk)
+            else if (transition.FromState is WalkState)
             {
-                walkState = state as WalkState; 
+                walkState =  transition.FromState as WalkState; 
             }
-            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Idle)
+            else if (transition.FromState is IdleState)
             {
-                idleState = state as IdleState; 
+                idleState =  transition.FromState as IdleState; 
             }
-            else if (transition.FromState is CharacterStateMachineSO.CharacterStateType.Jump)
+            else if (transition.FromState is JumpState)
             {
-                jumpState = state as JumpState; 
+                jumpState =  transition.FromState as JumpState; 
             }
             else
             {
@@ -133,36 +131,4 @@ public class CharacterStateMachine
     {
         return new CharacterState();
     }*/
-}
-
-public class CharacterStateFactory
-{
-    public CharacterStateMachine StateMachine;
-    private readonly Dictionary<CharacterStateMachineSO.CharacterStateType, List<CharacterStateMachineSO.CharacterStateType>> _states;
-    
-    public CharacterStateFactory(CharacterStateMachineSO data)
-    {
-        _states = data.GetStateData();
-    }
-    
-    public CharacterState CreateState(CharacterStateMachineSO.CharacterStateType type, CharacterController player)
-    {
-        switch (type)
-        {
-            case CharacterStateMachineSO.CharacterStateType.Idle:
-                return new IdleState(StateMachine, _states[type], player);
-            case CharacterStateMachineSO.CharacterStateType.Walk:
-                return new WalkState(StateMachine, _states[type], player);
-            case CharacterStateMachineSO.CharacterStateType.Jump:
-                return new JumpState(StateMachine, _states[type], player);
-            case CharacterStateMachineSO.CharacterStateType.Punch:
-                return new PunchState(StateMachine, _states[type], player);
-            case CharacterStateMachineSO.CharacterStateType.Reach:
-                return new ReachState(StateMachine, _states[type], player);
-            case CharacterStateMachineSO.CharacterStateType.Fall:
-                return new FallState(StateMachine, _states[type], player);
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
-        }
-    }
 }

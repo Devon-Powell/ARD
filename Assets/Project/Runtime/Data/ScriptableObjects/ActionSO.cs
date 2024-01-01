@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.IO.Enumeration;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = nameof(ActionSO), menuName = "ScriptableObject/Action")]
@@ -9,17 +10,17 @@ public class ActionSO : ScriptableObject
     public AnimationCurve YCurve; 
     public AnimationCurve ZCurve;
     public float duration;
-    public Vector3 deltaPosition;
+    public Vector3 deltaPosition;  // todo: delete this
     private Vector3 _startingPosition;
 
-    public Transform effectorTransform;
-
-    public async UniTask MoveObject(GameObject targetObject, float xDelta)
+    private Transform effectorTransform;
+    public async UniTask MoveObject(GameObject gameObject)
     {
-        await MoveOnXYZ(deltaPosition, effectorTransform.position);
+        effectorTransform = Effector.FindTransform(gameObject);
+        await MoveOnXYZ(effectorTransform.position);
     }
 
-    private async UniTask MoveOnXYZ(Vector3 relativePosition, Vector3 startPosition)
+    private async UniTask MoveOnXYZ(Vector3 startPosition)
     {
         float timeElapsed = 0;
         

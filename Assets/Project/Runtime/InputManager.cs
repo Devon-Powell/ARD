@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,64 +6,46 @@ namespace Project.Runtime
 {
     public class InputManager : MonoBehaviour
     {
+        private CharacterController player;
         Vector2 moveAmount;
+
+        public void Init(CharacterController player)
+        {
+            this.player = player;
+        }
 
         public void OnMove(InputAction.CallbackContext context)
         {
             // read the value for the "move" action each event call
             moveAmount = context.ReadValue<Vector2>();
-            Debug.Log("OnMove");
+            DebugManager.Instance.Log("OnMove");
+
+            RunMoveCommand(player, moveAmount);
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
             // your jump code goes here.
-            Debug.Log("OnJump");
+            DebugManager.Instance.Log("OnJump");
 
-        }
-
-        public void Update()
-        {
-            // to use the Vector2 value from the "move" action each
-            // frame, use the "moveAmount" variable here.
         }
         
-        /*private void RunMoveCommand(CharacterStateMachine stateMachine, Vector3 movement)
+        private void RunMoveCommand(CharacterController player, Vector2 moveAmount)
         {
+            var stateMachine = player.StateMachine;
             if (stateMachine == null)
             {
+                DebugManager.Instance.Log("StateMachine is Null");
                 return;
             }
-            if (stateMachine.TransitionToState(WalkState))
+            if (stateMachine.Enter(stateMachine.walkState))
             {
-                ICommand command = new MoveCommand(playerMover, movement);
-                CommandInvoker.ExecuteCommand(command);
+                DebugManager.Instance.Log("Entered Walk State");
             }
-        }*/
-    }
-}
-
-public interface ICommand
-{
-    void Execute();
-    void Undo();
-}
-
-public class MoveCommand : ICommand
-{
-    CharacterController playerMover;
-    Vector3 movement;
-    public MoveCommand(CharacterController player, Vector3 moveVector)
-    {
-        this.playerMover = player;
-        this.movement = moveVector;
-    }
-    public void Execute()
-    {
-        //playerMover.Move(movement);
-    }
-    public void Undo()
-    {
-        //playerMover.Move(-movement);
+            else
+            {
+                DebugManager.Instance.Log("Failed to Enter Walk State");
+            }
+        }
     }
 }

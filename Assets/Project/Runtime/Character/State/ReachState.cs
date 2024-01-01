@@ -1,13 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+[CreateAssetMenu(fileName = nameof(ReachState), menuName = "ScriptableObject/CharacterState/ReachState")]
 public class ReachState: CharacterState
 {
-    public override void Init()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override bool IsValidNextState(CharacterState state)
     {
         throw new System.NotImplementedException();
@@ -29,7 +24,4 @@ public class ReachState: CharacterState
         throw new System.NotImplementedException();
     }
 
-    public ReachState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
-    {
-    }
 }

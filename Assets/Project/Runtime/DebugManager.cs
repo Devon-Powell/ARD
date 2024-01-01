@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Project.Runtime
@@ -8,6 +10,17 @@ namespace Project.Runtime
     {
         // UI text object
         [SerializeField] private TextMeshProUGUI DebugUI;
-        [HideInInspector] public string DebugText;
+        private string _debugText;
+
+        public void Log(string message)
+        {
+            _debugText = message;
+            Debug.Log(message);
+        }
+
+        private void Update()
+        {
+            DebugUI.text = _debugText;
+        }
     }
 }

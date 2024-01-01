@@ -1,13 +1,10 @@
 using System.Collections.Generic;
+using Project.Runtime;
 using UnityEngine;
-
+[CreateAssetMenu(fileName = nameof(WalkState), menuName = "ScriptableObject/CharacterState/WalkState")]
 public class WalkState: CharacterState
 {
-    public override void Init()
-    {
-        throw new System.NotImplementedException();
-    }
-
+    public MoveCommand moveCommand;
     public override bool IsValidNextState(CharacterState state)
     {
         throw new System.NotImplementedException();
@@ -16,20 +13,20 @@ public class WalkState: CharacterState
     public override void DidEnter(CharacterState fromState)
     {
         // Perform any logic needed when entering the FallState
-        Debug.Log("Entered WalkState from " + fromState.GetType().Name);
+        DebugManager.Instance.Log("Entered WalkState from " + fromState.GetType().Name);
+        
+        moveCommand.Init(player, new Vector3());
+        moveCommand.Execute();
     }
 
     public override void Update()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override bool WillExit(CharacterState toState)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public WalkState(CharacterStateMachine stateMachine, List<CharacterStateMachineSO.CharacterStateType> validToStates, CharacterController player) : base(stateMachine, validToStates, player)
-    {
+        DebugManager.Instance.Log("Will exit walk state ");
+        return true;
     }
 }

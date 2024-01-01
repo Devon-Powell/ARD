@@ -5,15 +5,15 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(fileName = nameof(CharacterStateMachineSO), menuName = "ScriptableObject/StateMachine/Character")]
 public class CharacterStateMachineSO : ScriptableObject
 {
-    public CharacterStateType DefaultState;
+    public CharacterState DefaultState;
     
     [Space]
     public List<StateTransition> StateTransitions;
     
 
-    public Dictionary<CharacterStateType, List<CharacterStateType>> GetStateData()
+    public Dictionary<CharacterState, List<CharacterState>> GetStateData()
     {
-        Dictionary<CharacterStateType, List<CharacterStateType>> statesData = new Dictionary<CharacterStateType, List<CharacterStateType>>();
+        Dictionary<CharacterState, List<CharacterState>> statesData = new Dictionary<CharacterState, List<CharacterState>>();
         foreach (var transition in StateTransitions)
         {
             statesData[transition.FromState] = transition.ToStates;
@@ -21,22 +21,11 @@ public class CharacterStateMachineSO : ScriptableObject
 
         return statesData;
     }
-    
-    [System.Serializable]
-    public enum CharacterStateType
-    {
-        Idle = 0,
-        Fall = 1,
-        Jump = 2,
-        Punch = 3,
-        Reach = 4,
-        Walk = 5
-    }
 
     [System.Serializable]
     public class StateTransition
     {
-        public CharacterStateType FromState;
-        [FormerlySerializedAs("ToState")] public List<CharacterStateType> ToStates;
+        public CharacterState FromState;
+        [FormerlySerializedAs("ToState")] public List<CharacterState> ToStates;
     }
 }

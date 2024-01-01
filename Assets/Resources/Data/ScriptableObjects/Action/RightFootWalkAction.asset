@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49445350d39bfde48896796c90c75962, type: 3}
   m_Name: RightFootWalkAction
   m_EditorClassIdentifier: 
-  Effector: {fileID: 11400000, guid: c17c1e39f98ebd24e96b7a6440206c22, type: 2}
+  Effector: {fileID: 11400000, guid: e8f1ac9c90b8e9c45a88d6448988b407, type: 2}
   XCurve:
     serializedVersion: 2
     m_Curve: []
@@ -58,3 +58,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  duration: 0
+  deltaPosition: {x: 0, y: 0, z: 0}
+  effectorTransform: {fileID: 0}
