@@ -40,7 +40,7 @@ public class ConfigurableJointActuator : MonoBehaviour
         toJointSpaceDefault = defaultLocalRotation * toJointSpace;
 
         // Set joint params
-        joint.rotationDriveMode = RotationDriveMode.Slerp;
+        //joint.rotationDriveMode = RotationDriveMode.Slerp;
         joint.configuredInWorldSpace = false;
     }
 
@@ -57,10 +57,10 @@ public class ConfigurableJointActuator : MonoBehaviour
         lastDamper = damper;
 
         // Update slerp drive
-        slerpDrive.positionSpring = spring;
-        slerpDrive.positionDamper = damper;
-        slerpDrive.maximumForce = Mathf.Max(spring, damper);
-        joint.slerpDrive = slerpDrive;
+        //slerpDrive.positionSpring = spring;
+        //slerpDrive.positionDamper = damper;
+        //slerpDrive.maximumForce = Mathf.Max(spring, damper);
+        //joint.slerpDrive = slerpDrive;
     }
 
     // Convert a local rotation to local joint space rotation
